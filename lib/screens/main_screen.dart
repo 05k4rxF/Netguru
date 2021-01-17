@@ -6,7 +6,7 @@ import 'dart:async';
 import 'package:netguru/theme/theme.dart';
 import './fav_screen.dart';
 import './values_screen.dart';
-import './core/controller.dart';
+import '../core/controller.dart';
 
 goToFavourites() {
   Get.to(

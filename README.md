@@ -1,4 +1,4 @@
-# netguru
+# Netguru
 
 A new Flutter project.
 

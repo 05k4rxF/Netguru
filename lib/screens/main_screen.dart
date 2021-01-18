@@ -49,14 +49,20 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: AppTheme.dark.primaryColor,
-        child: Icon(
-          Icons.add,
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.only(bottom: 45.0),
+        child: Align(
+          alignment: Alignment.bottomCenter,
+          child: new FloatingActionButton(
+            backgroundColor: AppTheme.dark.primaryColor,
+            child: Icon(
+              Icons.add,
+            ),
+            onPressed: () {
+              _displayTextInputDialog(context);
+            },
+          ),
         ),
-        onPressed: () {
-          _displayTextInputDialog(context);
-        },
       ),
       appBar: AppBar(
         title: Text("NG Values", style: GoogleFonts.raleway()),
@@ -219,88 +225,90 @@ Future<void> _displayTextInputDialog(BuildContext context) async {
   return showDialog(
       context: context,
       builder: (context) {
-        return AlertDialog(
-          shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(15.0))),
-          title: Text('Add Value'),
-          content: Container(
-            width: MediaQuery.of(context).size.width * 0.7,
-            child: TextField(
-              key: _textFieldKey,
-              onEditingComplete: () {
-                if (_textFieldController.text != "") {
-                  controller.addValue(_textFieldController.text);
-                  Navigator.pop(context);
-                  Get.snackbar(
-                    "Success",
-                    "Value \"${_textFieldController.text}\" was added to Values list",
-                    snackPosition: SnackPosition.TOP,
-                    duration: const Duration(seconds: 2),
-                    colorText: Colors.white,
-                    backgroundColor: Colors.grey[900],
-                  );
-                  _textFieldController.clear();
-                } else {
-                  Navigator.pop(context);
-                  Get.snackbar(
-                    "Error",
-                    "Text field can't be empty. Try again",
-                    snackPosition: SnackPosition.TOP,
-                    duration: const Duration(seconds: 3),
-                    colorText: Colors.white,
-                    backgroundColor: Colors.grey[900],
-                  );
-                }
-              },
-              controller: _textFieldController,
-              decoration: InputDecoration(hintText: "Enter new Value here"),
+        return SingleChildScrollView(
+          child: AlertDialog(
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(15.0))),
+            title: Text('Add Value'),
+            content: Container(
+              width: MediaQuery.of(context).size.width * 0.7,
+              child: TextField(
+                key: _textFieldKey,
+                onEditingComplete: () {
+                  if (_textFieldController.text != "") {
+                    controller.addValue(_textFieldController.text);
+                    Navigator.pop(context);
+                    Get.snackbar(
+                      "Success",
+                      "Value \"${_textFieldController.text}\" was added to Values list",
+                      snackPosition: SnackPosition.TOP,
+                      duration: const Duration(seconds: 2),
+                      colorText: Colors.white,
+                      backgroundColor: Colors.grey[900],
+                    );
+                    _textFieldController.clear();
+                  } else {
+                    Navigator.pop(context);
+                    Get.snackbar(
+                      "Error",
+                      "Text field can't be empty. Try again",
+                      snackPosition: SnackPosition.TOP,
+                      duration: const Duration(seconds: 3),
+                      colorText: Colors.white,
+                      backgroundColor: Colors.grey[900],
+                    );
+                  }
+                },
+                controller: _textFieldController,
+                decoration: InputDecoration(hintText: "Enter new Value here"),
+              ),
             ),
+            actions: <Widget>[
+              FlatButton(
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(5.0))),
+                color: Colors.red,
+                textColor: Colors.white,
+                child: Text('Cancel'),
+                onPressed: () {
+                  _textFieldController.clear();
+                  Navigator.pop(context);
+                },
+              ),
+              FlatButton(
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(5.0))),
+                color: Colors.green,
+                textColor: Colors.white,
+                child: Text('Add'),
+                onPressed: () {
+                  if (_textFieldController.text != "") {
+                    controller.addValue(_textFieldController.text);
+                    Navigator.pop(context);
+                    Get.snackbar(
+                      "Success",
+                      "Value \"${_textFieldController.text}\" was added to Values list",
+                      snackPosition: SnackPosition.TOP,
+                      duration: const Duration(seconds: 2),
+                      colorText: Colors.white,
+                      backgroundColor: Colors.grey[900],
+                    );
+                    _textFieldController.clear();
+                  } else {
+                    Navigator.pop(context);
+                    Get.snackbar(
+                      "Error",
+                      "Text field can't be empty. Try again",
+                      snackPosition: SnackPosition.TOP,
+                      duration: const Duration(seconds: 3),
+                      colorText: Colors.white,
+                      backgroundColor: Colors.grey[900],
+                    );
+                  }
+                },
+              ),
+            ],
           ),
-          actions: <Widget>[
-            FlatButton(
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(5.0))),
-              color: Colors.red,
-              textColor: Colors.white,
-              child: Text('Cancel'),
-              onPressed: () {
-                _textFieldController.clear();
-                Navigator.pop(context);
-              },
-            ),
-            FlatButton(
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(5.0))),
-              color: Colors.green,
-              textColor: Colors.white,
-              child: Text('Add'),
-              onPressed: () {
-                if (_textFieldController.text != "") {
-                  controller.addValue(_textFieldController.text);
-                  Navigator.pop(context);
-                  Get.snackbar(
-                    "Success",
-                    "Value \"${_textFieldController.text}\" was added to Values list",
-                    snackPosition: SnackPosition.TOP,
-                    duration: const Duration(seconds: 2),
-                    colorText: Colors.white,
-                    backgroundColor: Colors.grey[900],
-                  );
-                  _textFieldController.clear();
-                } else {
-                  Navigator.pop(context);
-                  Get.snackbar(
-                    "Error",
-                    "Text field can't be empty. Try again",
-                    snackPosition: SnackPosition.TOP,
-                    duration: const Duration(seconds: 3),
-                    colorText: Colors.white,
-                    backgroundColor: Colors.grey[900],
-                  );
-                }
-              },
-            ),
-          ],
         );
       });
 }
